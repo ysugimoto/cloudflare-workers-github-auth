@@ -1,4 +1,4 @@
-# cloudflare-worker-github-auth
+# cloudflare-workers-github-auth
 
 Edge-side GitHub authentication example.
 

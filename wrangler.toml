@@ -1,0 +1,21 @@
+name = "cloudflare-workers-github-auth"
+type = "javascript"
+route = ''
+zone_id = ''
+usage_model = ''
+compatibility_flags = []
+workers_dev = true
+compatibility_date = "2021-12-28"
+
+kv_namespaces = [
+  { binding = "SESSION" },
+  { binding = "STATE" },
+]
+
+[build]
+command = "yarn && yarn build"
+[build.upload]
+format = "service-worker"
+
+[miniflare]
+env_path = ".env"

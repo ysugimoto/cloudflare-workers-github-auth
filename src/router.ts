@@ -109,7 +109,6 @@ router.get("/signin/callback", async (req: Request) => {
     },
   );
   const { access_token } = await token.json();
-  console.log(access_token);
 
   const user = await fetch(
     `https://api.github.com/user`,
@@ -121,9 +120,7 @@ router.get("/signin/callback", async (req: Request) => {
       },
     }
   );
-  const u = await user.text();
-  console.log(u);
-  const { login } = JSON.parse(u);
+  const { login } = await user.json();
   const sessionId = uuidv4();
   await SESSION.put(sessionId, login, { expirationTtl: 60 * 60 });
 

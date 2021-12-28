@@ -11,7 +11,8 @@
     "test": "jest",
     "lint": "eslint --fix --ext .ts ./src",
     "prepare": "husky install",
-    "deploy-worker": "wrangler publish --config wrangler.production.toml"
+    "deploy-worker": "wrangler publish --config wrangler.production.toml",
+    "login": "wrangler login"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^3.3.0",

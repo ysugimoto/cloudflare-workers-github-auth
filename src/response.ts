@@ -3,7 +3,7 @@ export function signinResponse(): string {
 }
 
 export function signedInResponse(githubName: string): string {
-  return `<p>You're signing in as ${escape(githubName)}</p><a href="/signout">Signout</a>`;
+  return `<p>You're signing in as <strong>${escape(githubName)}</strong></p><a href="/signout">Signout</a>`;
 }
 
 export function signoutResponse(): string {

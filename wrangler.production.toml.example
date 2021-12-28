@@ -1,0 +1,23 @@
+name = "github-auth"
+type = "javascript"
+route = ''
+zone_id = ''
+usage_model = ''
+compatibility_flags = []
+workers_dev = true
+compatibility_date = "2021-12-28"
+
+kv_namespaces = [
+  { binding = "SESSION", id = "find your KV id in dashboard" },
+  { binding = "STATE", id = "find your KV id in dashboard" },
+]
+
+[vars]
+GITHUB_CLIENT_ID="<your production github app client id>"
+GITHUB_CLIENT_SECRET="<your production github app client secret>"
+GITHUB_REDIRECT_URI="https://<your worker-route>/signin/callback"
+
+[build]
+command = "yarn && yarn build"
+[build.upload]
+format = "service-worker"

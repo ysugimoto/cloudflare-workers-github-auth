@@ -1,4 +1,4 @@
-name = "cloudflare-workers-github-auth"
+name = "github-auth"
 type = "javascript"
 route = ''
 zone_id = ''
@@ -8,14 +8,16 @@ workers_dev = true
 compatibility_date = "2021-12-28"
 
 kv_namespaces = [
-  { binding = "SESSION" },
-  { binding = "STATE" },
+  { binding = "SESSION", id = "" },
+  { binding = "STATE", id = "" },
 ]
+
+[vars]
+GITHUB_CLIENT_ID = "<your github client id>"
+GITHUB_CLIENT_SECRET = "<your github client secret>"
+GITHUB_REDIRECT_URI="http://localhost:8787/signin/callback"
 
 [build]
 command = "yarn && yarn build"
 [build.upload]
 format = "service-worker"
-
-[miniflare]
-env_path = ".env"

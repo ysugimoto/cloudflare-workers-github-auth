@@ -10,10 +10,12 @@
     "dev": "miniflare dist/worker.js --watch --debug",
     "test": "jest",
     "lint": "eslint --fix --ext .ts ./src",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy-worker": "wrangler publish --config wrangler.production.toml"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^3.3.0",
+    "@cloudflare/wrangler": "^1.19.6",
     "@types/cookie": "^0.4.1",
     "@types/jest": "^27.0.3",
     "@types/service-worker-mock": "^2.0.1",
@@ -33,7 +35,8 @@
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
     "webpack": "^5.65.0",
-    "webpack-cli": "^4.9.1"
+    "webpack-cli": "^4.9.1",
+    "wrangler": "^0.0.4"
   },
   "dependencies": {
     "cookie": "^0.4.1",

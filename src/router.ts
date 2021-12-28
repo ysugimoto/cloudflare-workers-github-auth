@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const router = Router();
 
+// Application root
 router.get("/", async (req: Request) => {
   const cookies = parse(req.headers.get("Cookie") || "");
 
@@ -32,6 +33,12 @@ router.get("/", async (req: Request) => {
   });
 });
 
+// Supress error response e.g Chrome automatic request
+router.get("/favicon.ico", async () => {
+  return new Response("");
+});
+
+// Signout
 router.get("/signout", async () => {
   const cookie = serialize("sessionId", "_", {
     expires: new Date(0),
@@ -46,9 +53,11 @@ router.get("/signout", async () => {
   });
 });
 
+// Signin
 router.get("/signin", async () => {
   const state = uuidv4();
-  await STATE.put(state, state, { expirationTtl: 10 });
+  // on Cloudflare Workers KV, expirationTtl must be at least 60
+  await STATE.put(state, state, { expirationTtl: 60 });
 
   const params = new URLSearchParams({
     client_id: GITHUB_CLIENT_ID,
@@ -62,6 +71,7 @@ router.get("/signin", async () => {
   );
 });
 
+// GitHub oauth callback handler
 router.get("/signin/callback", async (req: Request) => {
   const url = new URL(req.url);
   const queries = url.searchParams;
@@ -99,17 +109,21 @@ router.get("/signin/callback", async (req: Request) => {
     },
   );
   const { access_token } = await token.json();
+  console.log(access_token);
 
   const user = await fetch(
     `https://api.github.com/user`,
     {
       headers: {
         "accept": "application/vnd.github.v3+json",
-        "authorization": `token ${access_token}`
+        "authorization": `token ${access_token}`,
+        "user-agent": "Cloudflare Workers/1.0"
       },
     }
   );
-  const { login } = await user.json();
+  const u = await user.text();
+  console.log(u);
+  const { login } = JSON.parse(u);
   const sessionId = uuidv4();
   await SESSION.put(sessionId, login, { expirationTtl: 60 * 60 });
 

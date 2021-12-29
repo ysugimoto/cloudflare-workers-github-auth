@@ -1,6 +1,10 @@
 import { Router } from "itty-router";
 import { parse, serialize } from "cookie";
-import { signinResponse, signedInResponse, signoutResponse } from "./response";
+import {
+  signinResponse,
+  signedInResponse,
+  signoutResponse,
+} from "./response";
 import { v4 as uuidv4 } from "uuid";
 
 export const router = Router();
@@ -128,10 +132,22 @@ router.get("/signin/callback", async (req: Request) => {
     maxAge: 60 * 60,
     path: "/",
   });
-  return new Response(signedInResponse(login), {
+  return new Response("", {
+    status: 302,
     headers: {
+      "location": "/",
       "content-type": "text/html",
       "set-cookie": cookie,
     },
+  });
+});
+
+// Catch no route
+router.all("*", async () => {
+  return new Response("Not Found", {
+    status: 404,
+    headers: {
+      "content-type": "text/plain"
+    }
   });
 });
